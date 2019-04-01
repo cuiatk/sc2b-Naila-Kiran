@@ -3,7 +3,11 @@
  */
 package twitter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Filter consists of methods that filter a list of tweets for those matching a
@@ -27,7 +31,19 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
-        throw new RuntimeException("not implemented");
+    	
+
+        assertFalse(tweets.isEmpty());
+        List<Tweet> tweetsfromusername = new ArrayList<>();
+        for (Tweet tweet : tweets) {
+            if (tweet.getAuthor().toLowerCase().equals(username.toLowerCase())) {
+                tweetsfromusername.add(tweet);
+            }
+
+        }
+        return tweetsfromusername;
+
+        //throw new RuntimeException("not implemented");
     }
 
     /**
@@ -41,7 +57,19 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
-        throw new RuntimeException("not implemented");
+    	
+
+        List<Tweet> tweetsintimeSpan = new ArrayList<>();
+        for (Tweet tweet : tweets) {
+            // if(start time of tweet >timespan.start and <timespan.end add to
+            // tweetsinstimeSpan
+            if (tweet.getTimestamp().isBefore(timespan.getEnd()) && tweet.getTimestamp().isAfter(timespan.getStart())) {
+                tweetsintimeSpan.add(tweet);
+            }
+        }
+        return tweetsintimeSpan;
+
+       // throw new RuntimeException("not implemented");
     }
 
     /**
@@ -60,7 +88,29 @@ public class Filter {
      *         same order as in the input list.
      */
     public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-        throw new RuntimeException("not implemented");
+    	
+
+        List<String> loweredList = new ArrayList<>();
+        for (String lowered : words) {
+            loweredList.add(lowered.toLowerCase());
+        }
+
+        List<Tweet> tweetsWithKeyWords = new ArrayList<>();
+        for (Tweet tweet : tweets) {
+            // compare list words with tweet and if it contains atleast 1 of the
+            // words in the List words
+            List<String> wordsfromtweet = new ArrayList<String>(Arrays.asList(tweet.getText().split(" ")));
+            for (String st : wordsfromtweet) {
+                if (loweredList.contains(st.toLowerCase())) {
+                    tweetsWithKeyWords.add(tweet);
+                    break;
+                }
+
+            }
+        }
+        return tweetsWithKeyWords;
+
+        //throw new RuntimeException("not implemented");
     }
 
 }
